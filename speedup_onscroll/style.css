@@ -1,26 +1,28 @@
 body {
-    height: 200vh;
-    position: relative;
-    overflow-x: hidden;
+  height: 200vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .anime_object {
-    position: absolute;
-    /* left: 50%; */
-    top: 30%;
-    margin: auto;
-    font-size: 50px;
-  }
-  
-  .enable_rotate {
-    animation: rotateRight infinite linear;
-  }
-  
-  @keyframes rotateRight {
-      0% {
-          transform: translateX(100vw);
-      }
-    100% {
-      transform: translateX(0px);
-    }
-  }
+  font-size: 50px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.textContainer {
+  background-color: azure;
+  padding: 50px;
+  width: 100%;
+  position: fixed;
+  top: 30%;
+}
+
+.rotator {
+  width: 200px;
+  height: 400px;
+  background-color: aqua;
+  position: fixed;
+  top: 50%;
+  left: 30%;
+}

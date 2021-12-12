@@ -1,27 +1,34 @@
 
 
 let texte = document.getElementById("loading");
+let rotator = document.getElementById("rotator");
 var time = 0;
 var interval = setInterval(timeCount, 10);
+var initialSpeed = 1;
 
+
+// ANIMATION PART
 function timeCount() {
-  time += 1 + Math.abs(delta);
-  // console.log(time)
-  texte.style.transform = "translateX(" + time + "px)";
-  texte.style.transition = "all 0.5s ease-out";
-  if (time > 1200) {
-    time = 0;
+  time += initialSpeed + Math.abs(delta);
+  if (time > window.innerWidth) {
+    time = - window.innerWidth;
   }
+  texte.style.transform = "translateX(" + - time + "px)";
+  texte.style.transition = "all 0.4s ease-out";
+  rotator.style.transform = "rotate(" + time / 5 + "deg)";
+  rotator.style.transition = "all 0.4s ease-out";
 }
 
 
+
+// LISTEN SCROLL PART
 var delta;
 
-var checkScrollSpeed = (function(settings){
+var checkScrollSpeed = (function (settings) {
   settings = settings || {};
 
-  var lastPos, newPos, timer, 
-      delay = settings.delay || 50; // in "ms" (higher means lower fidelity )
+  var lastPos, newPos, timer,
+    delay = settings.delay || 50; // in "ms" (higher means lower fidelity )
 
   function clear() {
     lastPos = null;
@@ -30,10 +37,10 @@ var checkScrollSpeed = (function(settings){
 
   clear();
 
-  return function(){
+  return function () {
     newPos = window.scrollY;
-    if ( lastPos != null ){ // && newPos < maxScroll 
-      delta = newPos -  lastPos;
+    if (lastPos != null) { // && newPos < maxScroll 
+      delta = newPos - lastPos;
     }
     lastPos = newPos;
     clearTimeout(timer);
@@ -43,6 +50,6 @@ var checkScrollSpeed = (function(settings){
 })();
 
 // listen to "scroll" event
-window.onscroll = function(){
-console.log( checkScrollSpeed() );
+window.onscroll = function () {
+  checkScrollSpeed();
 };
