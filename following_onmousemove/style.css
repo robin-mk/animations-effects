@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    height: 100vh;
+    width: 100%;
+    filter: blur(0.7);
+    background-color: #91c4f5;
+    overflow: hidden;
+}
+
+.ball1 {
+    background-color: #f2ba8f;
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+}
