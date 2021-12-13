@@ -9,7 +9,7 @@ var initialSpeed = 1;
 
 // ANIMATION PART
 function timeCount() {
-  time += initialSpeed + Math.abs(delta);
+  time += initialSpeed + delta;
   if (time > window.innerWidth) {
     time = - window.innerWidth;
   }

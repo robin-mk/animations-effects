@@ -1,7 +1,17 @@
+* {
+  font-family: poppins, sans-serif;
+
+  font-weight: 400;
+
+  font-style: normal;
+}
+
 body {
   height: 200vh;
   position: relative;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .anime_object {
@@ -25,4 +35,21 @@ body {
   position: fixed;
   top: 50%;
   left: 30%;
+}
+
+/* NAV */
+.menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.menu h2 {
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
