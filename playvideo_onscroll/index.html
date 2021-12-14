@@ -7,16 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./base/cursor.css">
+    <link rel="stylesheet" href="./base/base.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dio1otf.css">
+    <script type="text/javascript" src="./base/cursorChange.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </head>
 
+<!-- NAV -->
+<nav>
+    <div id="menu" class="menu">
+        <h2>MENU</h2>
+        <div id="closingZoneLeft" class="closingZoneLeft" onmouseenter="closeCursor()" onmouseleave="noCloseCursor()"></div>
+        <div id="menuItems" class="menuItems">
+            <a href="../speedup_onscroll/index.html"><p class="menuItem" onmouseenter="changeCursor('./base/1.jpg')" onmouseleave="initialCursor()">Speed Up - Scroll</p></a>
+            <a href="../following_onmousemove/index.html"><p class="menuItem" onmouseenter="changeCursor('./base/2.jpg')" onmouseleave="initialCursor()">Element Follow - Mouse Move</p></a>
+        </div>
+    </div>
+</nav>
+
+<!-- EFFECT -->
 <body id="set-height">
     <div class="videoContainer">
         <video id="v0" tabindex="0" muted autobuffer preload>
             <source type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' src="video.mp4">
             </source>
         </video>
-        <script src="main.js"></script>
     </div>
+    <!-- CURSOR -->
+    <div id="cursor" class="cursor"></div>
+
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="./base/cursor.js"></script>
 </body>
 
 </html>

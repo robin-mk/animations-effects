@@ -46,10 +46,68 @@ body {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 100;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.menuItems {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: none;
+}
+
+.menu.active {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.menu.active:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  /* transition: all 0.5s ease; */
+}
+.menu.active .closingZoneLeft {
+    width: 30%;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.menu:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
 }
 
 .menu h2 {
   margin: 0;
   writing-mode: vertical-rl;
   text-orientation: upright;
+}
+
+.svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+}
+
+.svg path {
+  transition: all 0.5s ease;
+}
+
+.svg path:hover {
+  transform: translateX(-100px);
+  d: path('M305.5 0H477V1080H305.5C-97.0001 633 -106 377.5 305.5 0Z') !important;
 }

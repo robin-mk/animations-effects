@@ -1,0 +1,47 @@
+/* CURSOR */
+
+.cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99999999999;
+    /* transition: 0.3s ease-out; */
+}
+.cursor::before {
+
+}
+
+.cursor.active {
+    width: 300px;
+    height: 200px;
+    border-radius: 0;
+    background-color: white;
+    background-image: url(1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cursor.close {
+    position: fixed;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: rgb(255, 255, 255);
+    transform:  rotate(45deg) translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99999999999;
+}
+.cursor.close::before {
+    content: '';
+    position: fixed;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: rgb(255, 255, 255);
+    transform:  rotate(90deg);
+}
