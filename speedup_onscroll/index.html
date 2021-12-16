@@ -18,19 +18,34 @@
 <nav>
     <div id="menu" class="menu">
         <h2>MENU</h2>
-        <div id="closingZoneLeft" class="closingZoneLeft" onmouseenter="closeCursor()" onmouseleave="noCloseCursor()"></div>
+        <div id="closingZoneLeft" class="closingZoneLeft" onmouseenter="closeCursor()" onmouseleave="noCloseCursor()">
+        </div>
         <div id="menuItems" class="menuItems">
-            <a href="../speedup_onscroll/index.html"><p class="menuItem" onmouseenter="changeCursor('../base/1.jpg')" onmouseleave="initialCursor()">Speed Up - Scroll</p></a>
-            <a href="../following_onmousemove/index.html"><p class="menuItem" onmouseenter="changeCursor('../base/2.jpg')" onmouseleave="initialCursor()">Element Follow - Mouse Move</p></a>
+            <a href="../speedup_onscroll/index.html">
+                <p class="menuItem" onmouseenter="changeCursor('../base/1.jpg')" onmouseleave="initialCursor()">Speed Up
+                    - Scroll</p>
+            </a>
+            <a href="../following_onmousemove/index.html">
+                <p class="menuItem" onmouseenter="changeCursor('../base/2.jpg')" onmouseleave="initialCursor()">Element
+                    Follow - Mouse Move</p>
+            </a>
         </div>
     </div>
 </nav>
 
 <!-- EFFECT -->
+
 <body>
-    <div class="textContainer">
-        <div id="loading" class="anime_object">HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - </div>
+    <div id='banner-text'>
+        <p class="banner-text">
+            <span id="loading" class="loading">HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - &nbsp;</span><span id="loading2"
+                class="loading2">HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - &nbsp;</span>
+        </p>
     </div>
+    <!-- <div class="textContainer">
+        <div id="loading" class="anime_object">HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - </div>
+        <div id="loading2" class="anime_object"> HELLO MY NAME IS ROBIN - HELLO MY NAME IS ROBIN - </div>
+    </div> -->
     <div id="rotator" class="rotator"></div>
 
     <!-- CURSOR -->

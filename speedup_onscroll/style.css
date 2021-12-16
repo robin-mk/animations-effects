@@ -26,6 +26,32 @@ body {
   width: 100%;
   position: fixed;
   top: 30%;
+  /* display: flex; */
+}
+
+#banner-text {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 4rem;
+  position: fixed;
+}
+.banner-text {
+  width: 100%;
+  font-size: 30px;
+  left: 0;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.banner-text span {
+  display: inline-block;
+  /* color: black; */
+}
+.loading {
+  color: blue;
+}
+.loading2 {
+  color: red;
 }
 
 .rotator {
