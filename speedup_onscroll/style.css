@@ -64,6 +64,10 @@ body {
   background-color: beige;
 }
 
+.itemToTranslate {
+  /* transition: transform 0.2s ease-out; */
+}
+
 
 .loading {
   color: blue;
