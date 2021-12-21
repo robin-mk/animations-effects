@@ -63,8 +63,8 @@ function timeCount2() {
     // replacement au debut si disparait a gauche
     if (sentencesTimeArray[i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
       sentencesTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
-      
-  // text plus à l'écran à gauche : invisible
+
+      // text plus à l'écran à gauche : invisible
       sentenceInfinity[i].style.opacity = 0;
 
       // partie pour gerer la transition
@@ -75,6 +75,13 @@ function timeCount2() {
       //   sentenceInfinity[i].style.opacity = 1;
       // },20)
     }
+
+    // le plus est un peu au piff
+    if (sentencesTimeArray[i] < (sentenceWidth * (i + 1 - lengthArray) + separatorWidth * (i + 1 - lengthArray))) {
+      
+      // text à l'écran à droite : visible
+      sentenceInfinity[i].style.opacity = 1;
+    }
   }
   // pour les separateurs
   for (let i = 0; i < lengthArray; i++) {
@@ -82,7 +89,7 @@ function timeCount2() {
     // replacement au debut si disparait a gauche
     if (separatorsTimeArray[i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
       separatorsTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
-      
+
       // partie pour gerer la transition
       // separatorInfinity[i].style.transition = "transform 0s linear";
       // separatorInfinity[i].style.opacity = 0;
@@ -106,9 +113,9 @@ function timeCount2() {
     indice++;
   });
 
-  
 
-// BONNE METHODE POUR GERER LA TRANSITION INVISIBLE
+
+  // BONNE METHODE POUR GERER LA TRANSITION INVISIBLE
 
   // if (time > 20 + texteWidth / speed) { // text1 plus à l'écran à gauche : invisible
   //   texte.style.opacity = 0;
