@@ -1,6 +1,6 @@
 let rotator = document.getElementById("rotator");
 let intervalTimer = 5; // precision de l'interval et donc de la transform
-let initialSpeed = 1; // 0 ou 1
+let initialSpeed = 1; // 0 ou 1 ou -1
 let speed = 1;
 let sentenceWidth;
 let separatorWidth;
@@ -27,7 +27,7 @@ initiate();
 
 async function initiate() {
   await createDOMElements();
-  setInterval(timeCount2, intervalTimer);
+  setInterval(timeCount, intervalTimer);
 }
 
 async function createDOMElements() {
@@ -36,7 +36,8 @@ async function createDOMElements() {
 
   sentenceWidth = sentence.getBoundingClientRect().width;
   separatorWidth = separator.getBoundingClientRect().width;
-  lengthArray = Math.ceil(window.innerWidth / (sentenceWidth + separatorWidth)) + 1;
+  // +2 pour dépasser de 1 à gauche et de 1 à droite
+  lengthArray = (Math.ceil(window.innerWidth / (sentenceWidth + separatorWidth))) + 2;
 
   // initialise une array de 0 de la bonne taille : stocke tous les temps pour chaque transform
   sentencesTimeArray = new Array(lengthArray).fill(0);
@@ -56,12 +57,12 @@ async function createDOMElements() {
 }
 
 // ANIMATION PART
-function timeCount2() {
+function timeCount() {
   // pour les phrases
   for (let i = 0; i < lengthArray; i++) {
     sentencesTimeArray[i] += initialSpeed + delta;
     // replacement au debut si disparait a gauche
-    if (sentencesTimeArray[i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
+    if (sentencesTimeArray[i] > (sentenceWidth * (i + 2) + separatorWidth * (i + 2))) {
       sentencesTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
 
       // text plus à l'écran à gauche : invisible
@@ -73,14 +74,18 @@ function timeCount2() {
       // setTimeout(() => {
       //   sentenceInfinity[i].style.transition = "transform 0.2s ease-out";
       //   sentenceInfinity[i].style.opacity = 1;
-      // },20)
+      // }, 20)
     }
 
-    // le plus est un peu au piff
-    if (sentencesTimeArray[i] < (sentenceWidth * (i + 1 - lengthArray) + separatorWidth * (i + 1 - lengthArray))) {
-      
+    // le plus 3 parce que il est invisible à gauche à plus 2
+    if (sentencesTimeArray[i] < (sentenceWidth * (i + 3 - lengthArray) + separatorWidth * (i + 3 - lengthArray))) {
       // text à l'écran à droite : visible
       sentenceInfinity[i].style.opacity = 1;
+    }
+
+    // si delta negatif
+    if (sentencesTimeArray[i] < (sentenceWidth * (i + 2 - lengthArray) + separatorWidth * (i + 2 - lengthArray))) {
+      sentencesTimeArray[i] += lengthArray * sentenceWidth + lengthArray * separatorWidth;
     }
   }
   // pour les separateurs
@@ -90,13 +95,27 @@ function timeCount2() {
     if (separatorsTimeArray[i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
       separatorsTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
 
+      // text plus à l'écran à gauche : invisible
+      separatorInfinity[i].style.opacity = 0;
+
       // partie pour gerer la transition
       // separatorInfinity[i].style.transition = "transform 0s linear";
       // separatorInfinity[i].style.opacity = 0;
       // setTimeout(() => {
       //   separatorInfinity[i].style.transition = "transform 0.2s ease-out";
       //   separatorInfinity[i].style.opacity = 1;
-      // },20)
+      // }, 20)
+    }
+
+    // le plus 3 parce que il est invisible à gauche à plus 2
+    if (separatorsTimeArray[i] < (sentenceWidth * (i + 3 - lengthArray) + separatorWidth * (i + 3 - lengthArray))) {
+      // text à l'écran à droite : visible
+      separatorInfinity[i].style.opacity = 1;
+    }
+
+    // si delta negatif
+    if (separatorsTimeArray[i] < (sentenceWidth * (i + 2 - lengthArray) + separatorWidth * (i + 2 - lengthArray))) {
+      separatorsTimeArray[i] += lengthArray * sentenceWidth + lengthArray * separatorWidth;
     }
   }
 
@@ -156,6 +175,11 @@ var checkScrollSpeed = (function (settings) {
     lastPos = newPos;
     clearTimeout(timer);
     timer = setTimeout(clear, delay);
+
+    // vitesse initiale negative
+    if (initialSpeed < 0) {
+      delta = -delta;
+    }
     return delta;
   };
 })();
