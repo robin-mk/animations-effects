@@ -35,6 +35,13 @@ body {
   margin-bottom: 4rem;
   position: fixed;
 }
+#banner-text2 {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 4rem;
+  position: fixed;
+  top: 200px;
+}
 .banner-text {
   width: 100%;
   font-size: 30px;
@@ -56,18 +63,12 @@ body {
   padding: 0 5px;
   white-space: normal;
 }
-.sentencesContainer {
-  overflow: hidden;
+.infinity {
   white-space: nowrap;
   width: 100%;
   padding: 50px 0;
   background-color: beige;
 }
-
-.itemToTranslate {
-  /* transition: transform 0.2s ease-out; */
-}
-
 
 .loading {
   color: blue;

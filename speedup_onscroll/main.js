@@ -1,7 +1,7 @@
+//  PROBLEME AVEC LE HARD RELOAD IL Y A BESOIN D UN SOFT RELOAD, PK ?
+
 let rotator = document.getElementById("rotator");
-let intervalTimer = 5; // precision de l'interval et donc de la transform
-let initialSpeed = 1; // 0 ou 1 ou -1
-let speed = 1;
+let intervalTimer = 5; // precision de l'interval et donc de la transform / ne pas changer sinon ça ne marche plus
 let sentenceWidth;
 let separatorWidth;
 let indiceItem = 0;
@@ -9,30 +9,54 @@ let delta = 0;
 let sentencesTimeArray;
 let separatorsTimeArray;
 let itemToTranslate;
-
-let sentenceText = "MY NAME IS ROBIN";
-let separatorText = "|";
-const sentencesContainer = document.querySelector('#sentencesContainer');
-const sentence = document.createElement('div');
-sentence.textContent = sentenceText;
-sentence.className = "sentenceInfinity itemToTranslate";
-const separator = document.createElement('div');
-separator.textContent = separatorText;
-separator.className = "separatorInfinity itemToTranslate";
-
-// array length
 let lengthArray;
 
-initiate();
+// const sentencesContainer = document.querySelector('.infinity');
+const sentencesContainer = document.querySelectorAll('.infinity');
+// let speed;
+let indiceInfinityItems = 0;
+sentencesContainer.forEach(function (item) {
+  speed = +item.dataset.speed;
+  sentenceText = item.dataset.text;
+  separatorText = item.dataset.separator;
+// let speed = +sentencesContainer.dataset.speed;
+// let sentenceText = sentencesContainer.dataset.text;
+// let separatorText = sentencesContainer.dataset.separator;
 
-async function initiate() {
-  await createDOMElements();
-  setInterval(timeCount, intervalTimer);
+  let sentence = document.createElement('div');
+  sentence.textContent = sentenceText;
+  sentence.className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+  let separator = document.createElement('div');
+  separator.textContent = separatorText;
+  separator.className = "separatorInfinity" + indiceInfinityItems + " separatorInfinity itemToTranslate" + indiceInfinityItems;
+
+  initiate(speed, sentence, separator, indiceInfinityItems);
+
+  indiceInfinityItems++;
+
+});
+
+// const sentence = document.createElement('div');
+// sentence.textContent = sentenceText;
+// sentence.className = "sentenceInfinity itemToTranslate";
+// const separator = document.createElement('div');
+// separator.textContent = separatorText;
+// separator.className = "separatorInfinity itemToTranslate";
+
+// array length
+
+// initiate();
+
+async function initiate(speed, sentence, separator, indiceInfinityItems) {
+  await createDOMElements(sentence, separator, indiceInfinityItems);
+  setInterval("timeCount(speed)", intervalTimer);
 }
 
-async function createDOMElements() {
-  sentencesContainer.appendChild(sentence);
-  sentencesContainer.appendChild(separator);
+async function createDOMElements(sentence, separator, indiceInfinityItems) {
+  sentencesContainer[indiceInfinityItems].appendChild(sentence);
+  sentencesContainer[indiceInfinityItems].appendChild(separator);
+  // sentencesContainer.appendChild(sentence);
+  // sentencesContainer.appendChild(separator);
 
   sentenceWidth = sentence.getBoundingClientRect().width;
   separatorWidth = separator.getBoundingClientRect().width;
@@ -45,22 +69,23 @@ async function createDOMElements() {
 
   // creation d'entite tant que l'ecran n'est pas rempli
   for (let i = 0; i < lengthArray; i++) {
-    sentencesContainer.appendChild(sentence.cloneNode(true));
-    sentencesContainer.appendChild(separator.cloneNode(true));
+    sentencesContainer[indiceInfinityItems].appendChild(sentence.cloneNode(true));
+    sentencesContainer[indiceInfinityItems].appendChild(separator.cloneNode(true));
+    // sentencesContainer.appendChild(sentence.cloneNode(true));
+    // sentencesContainer.appendChild(separator.cloneNode(true));
   }
 
-  itemToTranslate = document.querySelectorAll(".itemToTranslate");
-  sentenceInfinity = document.querySelectorAll(".sentenceInfinity");
-  separatorInfinity = document.querySelectorAll(".separatorInfinity");
-
-
+  itemToTranslate = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
+  sentenceInfinity = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
+  separatorInfinity = document.querySelectorAll(`.separatorInfinity${indiceInfinityItems}`);
 }
 
 // ANIMATION PART
-function timeCount() {
+function timeCount(speed) {
+  console.log(lengthArray)
   // pour les phrases
   for (let i = 0; i < lengthArray; i++) {
-    sentencesTimeArray[i] += initialSpeed + delta;
+    sentencesTimeArray[i] += speed + delta;
     // replacement au debut si disparait a gauche
     if (sentencesTimeArray[i] > (sentenceWidth * (i + 2) + separatorWidth * (i + 2))) {
       sentencesTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
@@ -90,7 +115,7 @@ function timeCount() {
   }
   // pour les separateurs
   for (let i = 0; i < lengthArray; i++) {
-    separatorsTimeArray[i] += initialSpeed + delta;
+    separatorsTimeArray[i] += speed + delta;
     // replacement au debut si disparait a gauche
     if (separatorsTimeArray[i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
       separatorsTimeArray[i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
@@ -119,15 +144,16 @@ function timeCount() {
     }
   }
 
+  console.log(sentencesTimeArray)
 
   let indice = 0;
 
   itemToTranslate.forEach(function (item) {
     if ((indice % 2) === 0) { // is even
-      item.style.transform = "translateX(" + - sentencesTimeArray[indice / 2] * speed + "px)";
+      item.style.transform = "translateX(" + - sentencesTimeArray[indice / 2] + "px)";
     }
     if (indice % 2 === 1 && indice < 2 * lengthArray) { // is odd
-      item.style.transform = "translateX(" + - separatorsTimeArray[Math.floor(indice / 2)] * speed + "px)";
+      item.style.transform = "translateX(" + - separatorsTimeArray[Math.floor(indice / 2)] + "px)";
     }
     indice++;
   });
@@ -177,7 +203,7 @@ var checkScrollSpeed = (function (settings) {
     timer = setTimeout(clear, delay);
 
     // vitesse initiale negative
-    if (initialSpeed < 0) {
+    if (speed < 0) {
       delta = -delta;
     }
     return delta;
