@@ -69,6 +69,9 @@ body {
   padding: 50px 0;
   background-color: beige;
 }
+.infinity div {
+  /* transition: transform 0.05s ease-out, opacity 0.5s; */
+}
 
 .loading {
   color: blue;
