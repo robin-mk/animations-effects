@@ -52,16 +52,17 @@ body {
 
 .banner-text div{
   display: inline-block;
+  white-space: nowrap;
   /* color: black; */
 }
 .sentenceInfinity {
   display: inline-block;
-  white-space: normal;
+  white-space: nowrap;
 }
 .separatorInfinity {
   display: inline-block;
   padding: 0 5px;
-  white-space: normal;
+  white-space: nowrap;
 }
 .infinity {
   white-space: nowrap;

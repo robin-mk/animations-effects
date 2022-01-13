@@ -2,8 +2,8 @@
 
 let rotator = document.getElementById("rotator");
 let intervalTimer = 5; // precision de l'interval et donc de la transform / ne pas changer sinon ça ne marche plus
-let sentenceWidth;
-let separatorWidth;
+let sentenceWidth = [];
+let separatorWidth = [];
 let indiceItem = 0;
 let delta = 0;
 let sentencesTimeArray = [];
@@ -14,8 +14,7 @@ let separator = [];
 let itemToTranslate = [];
 let sentenceInfinity = [];
 let separatorInfinity = [];
-let lengthArray;
-let interval = [];
+let lengthArray = [];
 
 // const sentencesContainer = document.querySelector('.infinity');
 const sentencesContainer = document.querySelectorAll('.infinity');
@@ -28,6 +27,7 @@ sentencesContainer.forEach(function (item) {
   sentence[indiceInfinityItems] = document.createElement('div');
   sentence[indiceInfinityItems].textContent = sentenceText;
   sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+  console.log(sentence[indiceInfinityItems].getBoundingClientRect().width)
   separator[indiceInfinityItems] = document.createElement('div');
   separator[indiceInfinityItems].textContent = separatorText;
   separator[indiceInfinityItems].className = "separatorInfinity" + indiceInfinityItems + " separatorInfinity itemToTranslate" + indiceInfinityItems;
@@ -40,21 +40,24 @@ sentencesContainer.forEach(function (item) {
 });
 
 function createDOMElements(a, b, indiceInfinityItems) {
+  // const child = await funtion
   sentencesContainer[indiceInfinityItems].appendChild(a);
   sentencesContainer[indiceInfinityItems].appendChild(b);
 
-
-  sentenceWidth = a.getBoundingClientRect().width;
-  separatorWidth = b.getBoundingClientRect().width;
+setTimeout(()=>{
+  
+  sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
+  separatorWidth[indiceInfinityItems] = b.getBoundingClientRect().width;
+  console.log(sentenceWidth[indiceInfinityItems])
   // +2 pour dépasser de 1 à gauche et de 1 à droite
-  lengthArray = (Math.ceil(window.innerWidth / (sentenceWidth + separatorWidth))) + 2;
+  lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / (sentenceWidth[indiceInfinityItems] + separatorWidth[indiceInfinityItems]))) + 2;
 
   // initialise une array de 0 de la bonne taille : stocke tous les temps pour chaque transform
-  sentencesTimeArray = new Array(2).fill().map(() => Array(lengthArray).fill(0));
-  separatorsTimeArray = new Array(2).fill().map(() => Array(lengthArray).fill(0));
+  sentencesTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
+  separatorsTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
 
   // creation d'entite tant que l'ecran n'est pas rempli
-  for (let i = 0; i < lengthArray; i++) {
+  for (let i = 0; i < lengthArray[indiceInfinityItems] - 1; i++) {
     sentencesContainer[indiceInfinityItems].appendChild(a.cloneNode(true));
     sentencesContainer[indiceInfinityItems].appendChild(b.cloneNode(true));
   }
@@ -62,24 +65,27 @@ function createDOMElements(a, b, indiceInfinityItems) {
   itemToTranslate[indiceInfinityItems] = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
   sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
   separatorInfinity[indiceInfinityItems] = document.querySelectorAll(`.separatorInfinity${indiceInfinityItems}`);
+  // console.log(itemToTranslate[indiceInfinityItems], separatorInfinity[indiceInfinityItems])
+},1000)
 }
 
 // initiate();
 
 // function initiate(sentence, separator, indiceInfinityItems) {
 setInterval(timeCount, intervalTimer);
-console.log(lengthArray)
 // }
 
 // ANIMATION PART
 function timeCount() {
   // pour les phrases
   for (let j = 0; j < indiceInfinityItems; j++) {
-    for (let i = 0; i < (lengthArray * 2); i++) {
-      sentencesTimeArray[j][i] += speed[j] + delta;
+    for (let i = 0; i < lengthArray[j]; i++) {
+      // console.log(lengthArray[j])
+      sentencesTimeArray[j][i] += speed[j] + Math.sign(speed[j]) * delta;
+      separatorsTimeArray[j][i] += speed[j] + Math.sign(speed[j]) * delta;
       // replacement au debut si disparait a gauche
-      if (sentencesTimeArray[j][i] > (sentenceWidth * (i + 2) + separatorWidth * (i + 2))) {
-        sentencesTimeArray[j][i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
+      if (sentencesTimeArray[j][i] > (sentenceWidth[j] * (i + 2) + separatorWidth[j] * (i + 2))) {
+        sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
 
         // text plus à l'écran à gauche : invisible
         sentenceInfinity[j][i].style.opacity = 0;
@@ -92,36 +98,8 @@ function timeCount() {
         //   sentenceInfinity[i].style.opacity = 1;
         // }, 20)
       }
-
-      // le plus 3 parce que il est invisible à gauche à plus 2
-      if (sentencesTimeArray[j][i] < (sentenceWidth * (i + 3 - lengthArray) + separatorWidth * (i + 3 - lengthArray))) {
-        // text à l'écran à droite : visible
-        sentenceInfinity[j][i].style.opacity = 1;
-      }
-
-      // si delta negatif
-      if (sentencesTimeArray[j][i] < (sentenceWidth * (i + 2 - lengthArray) + separatorWidth * (i + 2 - lengthArray))) {
-        sentencesTimeArray[j][i] += lengthArray * sentenceWidth + lengthArray * separatorWidth;
-      }
-
-      // TRANSFORM
-
-      itemToTranslate[j][i].style.transform = "translateX(" + - sentencesTimeArray[j][i] + "px)";
-
-      // console.log(sentencesTimeArray[0][7], itemToTranslate[0][10])
-
-      // /////////////////////////////////////////////////////////////////////
-      // PEUT ETRE NE PAS SEPARER LES SEPARATEURS DES SENTENCES ??????????????
-      // /////////////////////////////////////////////////////////////////////
-
-
-    }
-    // pour les separateurs
-    for (let i = 0; i < lengthArray; i++) {
-      separatorsTimeArray[j][i] += speed + delta;
-      // replacement au debut si disparait a gauche
-      if (separatorsTimeArray[j][i] > (sentenceWidth * (i + 1) + separatorWidth * (i + 1))) {
-        separatorsTimeArray[j][i] -= lengthArray * sentenceWidth + lengthArray * separatorWidth;
+      if (separatorsTimeArray[j][i] > (sentenceWidth[j] * (i + 1) + separatorWidth[j] * (i + 1))) {
+        separatorsTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
 
         // text plus à l'écran à gauche : invisible
         separatorInfinity[j][i].style.opacity = 0;
@@ -136,21 +114,29 @@ function timeCount() {
       }
 
       // le plus 3 parce que il est invisible à gauche à plus 2
-      if (separatorsTimeArray[j][i] < (sentenceWidth * (i + 3 - lengthArray) + separatorWidth * (i + 3 - lengthArray))) {
+      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]) + separatorWidth[j] * (i + 3 - lengthArray[j]))) {
+        // text à l'écran à droite : visible
+        sentenceInfinity[j][i].style.opacity = 1;
+      }
+      // le plus 3 parce que il est invisible à gauche à plus 2
+      if (separatorsTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]) + separatorWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
         separatorInfinity[j][i].style.opacity = 1;
       }
 
       // si delta negatif
-      if (separatorsTimeArray[j][i] < (sentenceWidth * (i + 2 - lengthArray) + separatorWidth * (i + 2 - lengthArray))) {
-        separatorsTimeArray[j][i] += lengthArray * sentenceWidth + lengthArray * separatorWidth;
+      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]) + separatorWidth[j] * (i + 2 - lengthArray[j]))) {
+        sentencesTimeArray[j][i] += lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
+      }
+      // si delta negatif
+      if (separatorsTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]) + separatorWidth[j] * (i + 2 - lengthArray[j]))) {
+        separatorsTimeArray[j][i] += lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
       }
 
       // TRANSFORM
-
-      itemToTranslate[j][i].style.transform = "translateX(" + - separatorsTimeArray[j][i] + "px)";
-
-
+      sentenceInfinity[j][i].style.transform = "translateX(" + - sentencesTimeArray[j][i] + "px)";
+      // TRANSFORM
+      separatorInfinity[j][i].style.transform = "translateX(" + - separatorsTimeArray[j][i] + "px)";
 
     }
   }
