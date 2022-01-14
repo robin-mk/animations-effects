@@ -7,16 +7,14 @@ let separatorWidth = [];
 let indiceItem = 0;
 let delta = 0;
 let sentencesTimeArray = [];
-let separatorsTimeArray = [];
 let speed = [];
 let sentence = [];
-let separator = [];
 let itemToTranslate = [];
 let sentenceInfinity = [];
-let separatorInfinity = [];
 let lengthArray = [];
+let visibleOnScreen = [];
 
-// const sentencesContainer = document.querySelector('.infinity');
+
 const sentencesContainer = document.querySelectorAll('.infinity');
 let indiceInfinityItems = 0;
 sentencesContainer.forEach(function (item) {
@@ -28,45 +26,36 @@ sentencesContainer.forEach(function (item) {
   sentence[indiceInfinityItems].textContent = sentenceText;
   sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
   console.log(sentence[indiceInfinityItems].getBoundingClientRect().width)
-  separator[indiceInfinityItems] = document.createElement('div');
-  separator[indiceInfinityItems].textContent = separatorText;
-  separator[indiceInfinityItems].className = "separatorInfinity" + indiceInfinityItems + " separatorInfinity itemToTranslate" + indiceInfinityItems;
 
-
-  createDOMElements(sentence[indiceInfinityItems], separator[indiceInfinityItems], indiceInfinityItems);
+  createDOMElements(sentence[indiceInfinityItems], indiceInfinityItems);
 
   indiceInfinityItems++;
 
 });
 
-function createDOMElements(a, b, indiceInfinityItems) {
+// function createDOMElements(a, b, indiceInfinityItems) {
+function createDOMElements(a, indiceInfinityItems) {
   // const child = await funtion
   sentencesContainer[indiceInfinityItems].appendChild(a);
-  sentencesContainer[indiceInfinityItems].appendChild(b);
 
-setTimeout(()=>{
-  
-  sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
-  separatorWidth[indiceInfinityItems] = b.getBoundingClientRect().width;
-  console.log(sentenceWidth[indiceInfinityItems])
-  // +2 pour dépasser de 1 à gauche et de 1 à droite
-  lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / (sentenceWidth[indiceInfinityItems] + separatorWidth[indiceInfinityItems]))) + 2;
+  setTimeout(() => {
 
-  // initialise une array de 0 de la bonne taille : stocke tous les temps pour chaque transform
-  sentencesTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
-  separatorsTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
+    sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
+    console.log(sentenceWidth[indiceInfinityItems])
+    // +2 pour dépasser de 1 à gauche et de 1 à droite
+    lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / sentenceWidth[indiceInfinityItems])) + 2;
 
-  // creation d'entite tant que l'ecran n'est pas rempli
-  for (let i = 0; i < lengthArray[indiceInfinityItems] - 1; i++) {
-    sentencesContainer[indiceInfinityItems].appendChild(a.cloneNode(true));
-    sentencesContainer[indiceInfinityItems].appendChild(b.cloneNode(true));
-  }
+    // initialise une array de 0 de la bonne taille : stocke tous les temps pour la transform
+    sentencesTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
 
-  itemToTranslate[indiceInfinityItems] = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
-  sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
-  separatorInfinity[indiceInfinityItems] = document.querySelectorAll(`.separatorInfinity${indiceInfinityItems}`);
-  // console.log(itemToTranslate[indiceInfinityItems], separatorInfinity[indiceInfinityItems])
-},1000)
+    // creation d'entite tant que l'ecran n'est pas rempli
+    for (let i = 0; i < lengthArray[indiceInfinityItems] - 1; i++) {
+      sentencesContainer[indiceInfinityItems].appendChild(a.cloneNode(true));
+    }
+
+    itemToTranslate[indiceInfinityItems] = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
+    sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
+  }, 1000)
 }
 
 // initiate();
@@ -80,63 +69,52 @@ function timeCount() {
   // pour les phrases
   for (let j = 0; j < indiceInfinityItems; j++) {
     for (let i = 0; i < lengthArray[j]; i++) {
-      // console.log(lengthArray[j])
+
       sentencesTimeArray[j][i] += speed[j] + Math.sign(speed[j]) * delta;
-      separatorsTimeArray[j][i] += speed[j] + Math.sign(speed[j]) * delta;
       // replacement au debut si disparait a gauche
-      if (sentencesTimeArray[j][i] > (sentenceWidth[j] * (i + 2) + separatorWidth[j] * (i + 2))) {
-        sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
+      if (sentencesTimeArray[j][i] > (sentenceWidth[j] * (i + 2))) {
+        sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j];
 
         // text plus à l'écran à gauche : invisible
         sentenceInfinity[j][i].style.opacity = 0;
 
         // partie pour gerer la transition
-        // sentenceInfinity[i].style.transition = "transform 0s linear";
-        // sentenceInfinity[i].style.opacity = 0;
+        // sentenceInfinity[j][i].style.transition = "transform 0s linear";
+        // sentenceInfinity[j][i].style.opacity = 0;
         // setTimeout(() => {
-        //   sentenceInfinity[i].style.transition = "transform 0.2s ease-out";
-        //   sentenceInfinity[i].style.opacity = 1;
+        //   sentenceInfinity[j][i].style.transition = "transform 0.2s ease-out";
+        //   sentenceInfinity[j][i].style.opacity = 1;
         // }, 20)
-      }
-      if (separatorsTimeArray[j][i] > (sentenceWidth[j] * (i + 1) + separatorWidth[j] * (i + 1))) {
-        separatorsTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
 
-        // text plus à l'écran à gauche : invisible
-        separatorInfinity[j][i].style.opacity = 0;
 
-        // partie pour gerer la transition
-        // separatorInfinity[i].style.transition = "transform 0s linear";
-        // separatorInfinity[i].style.opacity = 0;
-        // setTimeout(() => {
-        //   separatorInfinity[i].style.transition = "transform 0.2s ease-out";
-        //   separatorInfinity[i].style.opacity = 1;
-        // }, 20)
+
       }
 
       // le plus 3 parce que il est invisible à gauche à plus 2
-      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]) + separatorWidth[j] * (i + 3 - lengthArray[j]))) {
+      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
         sentenceInfinity[j][i].style.opacity = 1;
       }
-      // le plus 3 parce que il est invisible à gauche à plus 2
-      if (separatorsTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]) + separatorWidth[j] * (i + 3 - lengthArray[j]))) {
-        // text à l'écran à droite : visible
-        separatorInfinity[j][i].style.opacity = 1;
-      }
 
       // si delta negatif
-      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]) + separatorWidth[j] * (i + 2 - lengthArray[j]))) {
-        sentencesTimeArray[j][i] += lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
-      }
-      // si delta negatif
-      if (separatorsTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]) + separatorWidth[j] * (i + 2 - lengthArray[j]))) {
-        separatorsTimeArray[j][i] += lengthArray[j] * sentenceWidth[j] + lengthArray[j] * separatorWidth[j];
+      if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]))) {
+        sentencesTimeArray[j][i] += lengthArray[j] * sentenceWidth[j];
       }
 
       // TRANSFORM
       sentenceInfinity[j][i].style.transform = "translateX(" + - sentencesTimeArray[j][i] + "px)";
-      // TRANSFORM
-      separatorInfinity[j][i].style.transform = "translateX(" + - separatorsTimeArray[j][i] + "px)";
+
+
+
+
+      // visibleOnScreen[j][i] = sentenceInfinity[j][i];
+      if (sentenceInfinity[j][i].getBoundingClientRect().left > window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right < 0) {
+        sentenceInfinity[j][i].style.opacity = 0;
+      } else {
+        sentenceInfinity[j][i].style.opacity = 1;
+      }
+      console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
+
 
     }
   }
@@ -149,13 +127,6 @@ function timeCount() {
   // }
   // if (time > -texteWidth / speed) { // text1 bien arrivé à droite : passer visible
   //   texte.style.opacity = 1;
-  // }
-
-
-
-
-  // if (time < - texteWidth / speed) { // si on revient en arrière alors que le texte est déplacé à droite
-  //   time = 20 + texteWidth / speed;
   // }
 }
 
