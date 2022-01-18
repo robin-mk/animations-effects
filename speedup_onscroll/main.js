@@ -20,10 +20,19 @@ let indiceInfinityItems = 0;
 sentencesContainer.forEach(function (item) {
   speed[indiceInfinityItems] = +item.dataset.speed;
   sentenceText = item.dataset.text;
-  separatorText = item.dataset.separator;
+  inputInfinity = item.children[0];
+  console.log(item.children)
+  if (inputInfinity.src !== undefined) {
+    let k = 0;
+    item.children.forEach(function (img) {
+      sentence[indiceInfinityItems] = document.createElement('img');
+      sentence[indiceInfinityItems].url = img.url;
+      k++;
+    })
+  }
 
-  sentence[indiceInfinityItems] = document.createElement('div');
-  sentence[indiceInfinityItems].textContent = sentenceText;
+  // sentence[indiceInfinityItems] = document.createElement('div');
+  // sentence[indiceInfinityItems].textContent = sentenceText;
   sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
   console.log(sentence[indiceInfinityItems].getBoundingClientRect().width)
 
@@ -108,12 +117,12 @@ function timeCount() {
 
 
       // visibleOnScreen[j][i] = sentenceInfinity[j][i];
-      if (sentenceInfinity[j][i].getBoundingClientRect().left > window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right < 0) {
-        sentenceInfinity[j][i].style.opacity = 0;
-      } else {
-        sentenceInfinity[j][i].style.opacity = 1;
-      }
-      console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
+      // if (sentenceInfinity[j][i].getBoundingClientRect().left > window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right < 0) {
+      //   sentenceInfinity[j][i].style.opacity = 0;
+      // } else {
+      //   sentenceInfinity[j][i].style.opacity = 1;
+      // }
+      // console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
 
 
     }

@@ -71,7 +71,11 @@ body {
   background-color: beige;
 }
 .infinity div {
-  transition: transform 0.2s ease-out;
+  /* transition: transform 0.2s ease-out; */
+}
+
+img {
+  opacity: 0.5;
 }
 
 .loading {
