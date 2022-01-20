@@ -58,11 +58,13 @@ body {
 .sentenceInfinity {
   display: inline-block;
   white-space: nowrap;
+  padding-right: 5px;
 }
-.separatorInfinity {
-  display: inline-block;
-  padding: 0 5px;
-  white-space: nowrap;
+.infinity img {
+  height: 150px;
+  width: 200px;
+  object-fit: cover;
+  padding: 0;
 }
 .infinity {
   white-space: nowrap;
@@ -70,7 +72,7 @@ body {
   padding: 50px 0;
   background-color: beige;
 }
-.infinity div {
+.infinity div, img {
   /* transition: transform 0.2s ease-out; */
 }
 

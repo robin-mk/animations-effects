@@ -13,27 +13,42 @@ let itemToTranslate = [];
 let sentenceInfinity = [];
 let lengthArray = [];
 let visibleOnScreen = [];
+let tagNameInfinity;
 
 
 const sentencesContainer = document.querySelectorAll('.infinity');
 let indiceInfinityItems = 0;
 sentencesContainer.forEach(function (item) {
   speed[indiceInfinityItems] = +item.dataset.speed;
-  sentenceText = item.dataset.text;
   inputInfinity = item.children[0];
-  console.log(item.children)
-  if (inputInfinity.src !== undefined) {
-    let k = 0;
-    item.children.forEach(function (img) {
-      sentence[indiceInfinityItems] = document.createElement('img');
-      sentence[indiceInfinityItems].url = img.url;
-      k++;
-    })
-  }
+  tagNameInfinity = inputInfinity.tagName;
+  // if (tagNameInfinity === "IMG") {
+  //   item.querySelectorAll('IMG').forEach((img) => {
+  //     sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
+  //     sentence[indiceInfinityItems].src = `${img.src}`;
+  //     console.log(sentence[indiceInfinityItems].src)
+  //     sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+  //   })
+  //   item.innerHTML = ""; //delete current sentence
+  // } else {
+  //   sentenceText = inputInfinity.textContent;
+  //   item.innerHTML = ""; //delete current sentence
+  //   sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
+  //   sentence[indiceInfinityItems].textContent = sentenceText;
+  //   sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+  // }
 
-  // sentence[indiceInfinityItems] = document.createElement('div');
-  // sentence[indiceInfinityItems].textContent = sentenceText;
-  sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+  
+
+  // JE DOIS PRENDRE LES ENTREES UNE PAR UNE ET LES AJOUTER A LA SUITE PEUT IMPORTE LEUR TAG
+    for (i = 0; i < item.children.length; i++) {
+      console.log(item.children[i]);
+      // sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
+      // sentence[indiceInfinityItems].src = `${img.src}`;
+      sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
+    }
+    // item.innerHTML = ""; //delete current sentence
+
   console.log(sentence[indiceInfinityItems].getBoundingClientRect().width)
 
   createDOMElements(sentence[indiceInfinityItems], indiceInfinityItems);
@@ -127,16 +142,6 @@ function timeCount() {
 
     }
   }
-
-  // BONNE METHODE POUR GERER LA TRANSITION INVISIBLE
-
-  // if (time > 20 + texteWidth / speed) { // text1 plus à l'écran à gauche : invisible
-  //   texte.style.opacity = 0;
-  //   time = -texteWidth / speed;
-  // }
-  // if (time > -texteWidth / speed) { // text1 bien arrivé à droite : passer visible
-  //   texte.style.opacity = 1;
-  // }
 }
 
 // LISTEN SCROLL PART
