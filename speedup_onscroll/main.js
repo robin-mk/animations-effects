@@ -14,72 +14,45 @@ let sentenceInfinity = [];
 let lengthArray = [];
 let visibleOnScreen = [];
 let tagNameInfinity;
-
-
 const sentencesContainer = document.querySelectorAll('.infinity');
 let indiceInfinityItems = 0;
-sentencesContainer.forEach(function (item) {
-  speed[indiceInfinityItems] = +item.dataset.speed;
-  inputInfinity = item.children[0];
-  tagNameInfinity = inputInfinity.tagName;
-  // if (tagNameInfinity === "IMG") {
-  //   item.querySelectorAll('IMG').forEach((img) => {
-  //     sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
-  //     sentence[indiceInfinityItems].src = `${img.src}`;
-  //     console.log(sentence[indiceInfinityItems].src)
-  //     sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
-  //   })
-  //   item.innerHTML = ""; //delete current sentence
-  // } else {
-  //   sentenceText = inputInfinity.textContent;
-  //   item.innerHTML = ""; //delete current sentence
-  //   sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
-  //   sentence[indiceInfinityItems].textContent = sentenceText;
-  //   sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
-  // }
 
-  
+// INIT POUR LE BON CALCUL DES WIDTH
+window.onload = function initInfinity() {
+  sentencesContainer.forEach(function (item) {
+    speed[indiceInfinityItems] = +item.dataset.speed;
+    inputInfinity = item.children[0];
+    tagNameInfinity = inputInfinity.tagName;
+    sentenceText = inputInfinity.textContent;
+    item.innerHTML = ""; //delete current sentence
+    sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
+    sentence[indiceInfinityItems].textContent = sentenceText;
+    sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
 
-  // JE DOIS PRENDRE LES ENTREES UNE PAR UNE ET LES AJOUTER A LA SUITE PEUT IMPORTE LEUR TAG
-    for (i = 0; i < item.children.length; i++) {
-      console.log(item.children[i]);
-      // sentence[indiceInfinityItems] = document.createElement(`${tagNameInfinity}`);
-      // sentence[indiceInfinityItems].src = `${img.src}`;
-      sentence[indiceInfinityItems].className = "sentenceInfinity" + indiceInfinityItems + " sentenceInfinity itemToTranslate" + indiceInfinityItems;
-    }
-    // item.innerHTML = ""; //delete current sentence
+    createDOMElements(sentence[indiceInfinityItems], indiceInfinityItems);
 
-  console.log(sentence[indiceInfinityItems].getBoundingClientRect().width)
+    indiceInfinityItems++;
+  });
+}
 
-  createDOMElements(sentence[indiceInfinityItems], indiceInfinityItems);
-
-  indiceInfinityItems++;
-
-});
-
-// function createDOMElements(a, b, indiceInfinityItems) {
 function createDOMElements(a, indiceInfinityItems) {
-  // const child = await funtion
   sentencesContainer[indiceInfinityItems].appendChild(a);
 
-  setTimeout(() => {
+  sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
+  console.log(sentenceWidth[indiceInfinityItems])
+  // +2 pour dépasser de 1 à gauche et de 1 à droite
+  lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / sentenceWidth[indiceInfinityItems])) + 2;
 
-    sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
-    console.log(sentenceWidth[indiceInfinityItems])
-    // +2 pour dépasser de 1 à gauche et de 1 à droite
-    lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / sentenceWidth[indiceInfinityItems])) + 2;
+  // initialise une array de 0 de la bonne taille : stocke tous les temps pour la transform
+  sentencesTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
 
-    // initialise une array de 0 de la bonne taille : stocke tous les temps pour la transform
-    sentencesTimeArray[indiceInfinityItems] = new Array(lengthArray[indiceInfinityItems]).fill(0);
+  // creation d'entite tant que l'ecran n'est pas rempli
+  for (let i = 0; i < lengthArray[indiceInfinityItems] - 1; i++) {
+    sentencesContainer[indiceInfinityItems].appendChild(a.cloneNode(true));
+  }
 
-    // creation d'entite tant que l'ecran n'est pas rempli
-    for (let i = 0; i < lengthArray[indiceInfinityItems] - 1; i++) {
-      sentencesContainer[indiceInfinityItems].appendChild(a.cloneNode(true));
-    }
-
-    itemToTranslate[indiceInfinityItems] = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
-    sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
-  }, 1000)
+  itemToTranslate[indiceInfinityItems] = document.querySelectorAll(`.itemToTranslate${indiceInfinityItems}`);
+  sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
 }
 
 // initiate();
@@ -100,7 +73,7 @@ function timeCount() {
         sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j];
 
         // text plus à l'écran à gauche : invisible
-        sentenceInfinity[j][i].style.opacity = 0;
+        // sentenceInfinity[j][i].style.opacity = 0;
 
         // partie pour gerer la transition
         // sentenceInfinity[j][i].style.transition = "transform 0s linear";
@@ -117,7 +90,7 @@ function timeCount() {
       // le plus 3 parce que il est invisible à gauche à plus 2
       if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
-        sentenceInfinity[j][i].style.opacity = 1;
+        // sentenceInfinity[j][i].style.opacity = 1;
       }
 
       // si delta negatif

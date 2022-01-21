@@ -31,16 +31,23 @@ body {
 
 #banner-text {
   width: 100%;
-  overflow: hidden;
   margin-bottom: 4rem;
   position: fixed;
 }
 #banner-text2 {
-  width: 100%;
-  overflow: hidden;
+  width: 200%;
   margin-bottom: 4rem;
   position: fixed;
   top: 200px;
+  /* transform: rotate(45deg); */
+}
+#banner-text3 {
+  width: 200%;
+  margin-bottom: 4rem;
+  position: fixed;
+  top: 400px;
+  width: 200%;
+  /* transform: rotate(-45deg); */
 }
 .banner-text {
   width: 100%;
@@ -55,6 +62,7 @@ body {
   white-space: nowrap;
   /* color: black; */
 }
+
 .sentenceInfinity {
   display: inline-block;
   white-space: nowrap;
@@ -68,6 +76,7 @@ body {
 }
 .infinity {
   white-space: nowrap;
+  overflow: hidden;
   width: 100%;
   padding: 50px 0;
   background-color: beige;
