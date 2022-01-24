@@ -1,5 +1,3 @@
-//  PROBLEME AVEC LE HARD RELOAD IL Y A BESOIN D UN SOFT RELOAD, PK ?
-
 let rotator = document.getElementById("rotator");
 let intervalTimer = 5; // precision de l'interval et donc de la transform / ne pas changer sinon ça ne marche plus
 let sentenceWidth = [];
@@ -15,11 +13,17 @@ let lengthArray = [];
 let visibleOnScreen = [];
 let tagNameInfinity;
 const sentencesContainer = document.querySelectorAll('.infinity');
+let parentElementInifinity = [];
+let rotationParentElementInifinity = [];
 let indiceInfinityItems = 0;
 
 // INIT POUR LE BON CALCUL DES WIDTH
 window.onload = function initInfinity() {
   sentencesContainer.forEach(function (item) {
+    // GET PARENT ROTATION
+    // parentElementInifinity[indiceInfinityItems] = item.parentElement;
+    // rotationParentElementInifinity[indiceInfinityItems] = getCurrentRotation(parentElementInifinity[indiceInfinityItems]);
+
     speed[indiceInfinityItems] = +item.dataset.speed;
     inputInfinity = item.children[0];
     tagNameInfinity = inputInfinity.tagName;
@@ -41,6 +45,8 @@ function createDOMElements(a, indiceInfinityItems) {
   sentenceWidth[indiceInfinityItems] = a.getBoundingClientRect().width;
   console.log(sentenceWidth[indiceInfinityItems])
   // +2 pour dépasser de 1 à gauche et de 1 à droite
+  // SI ROTATION
+  // lengthArray[indiceInfinityItems] = (Math.ceil((rotationParentElementInifinity[indiceInfinityItems] + 1)*(window.innerWidth / sentenceWidth[indiceInfinityItems]))) + 2;
   lengthArray[indiceInfinityItems] = (Math.ceil(window.innerWidth / sentenceWidth[indiceInfinityItems])) + 2;
 
   // initialise une array de 0 de la bonne taille : stocke tous les temps pour la transform
@@ -73,24 +79,13 @@ function timeCount() {
         sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j];
 
         // text plus à l'écran à gauche : invisible
-        // sentenceInfinity[j][i].style.opacity = 0;
-
-        // partie pour gerer la transition
-        // sentenceInfinity[j][i].style.transition = "transform 0s linear";
-        // sentenceInfinity[j][i].style.opacity = 0;
-        // setTimeout(() => {
-        //   sentenceInfinity[j][i].style.transition = "transform 0.2s ease-out";
-        //   sentenceInfinity[j][i].style.opacity = 1;
-        // }, 20)
-
-
-
+        sentenceInfinity[j][i].style.opacity = 0;
       }
 
       // le plus 3 parce que il est invisible à gauche à plus 2
       if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
-        // sentenceInfinity[j][i].style.opacity = 1;
+        sentenceInfinity[j][i].style.opacity = 1;
       }
 
       // si delta negatif
@@ -104,10 +99,12 @@ function timeCount() {
 
 
 
+      // partie pour gerer la transition
       // visibleOnScreen[j][i] = sentenceInfinity[j][i];
       // if (sentenceInfinity[j][i].getBoundingClientRect().left > window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right < 0) {
+      //   visibleOnScreen[j][i] = false;
       //   sentenceInfinity[j][i].style.opacity = 0;
-      // } else {
+      // } if (sentenceInfinity[j][i].getBoundingClientRect().left < window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right > 0) {
       //   sentenceInfinity[j][i].style.opacity = 1;
       // }
       // console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
@@ -153,3 +150,20 @@ var checkScrollSpeed = (function (settings) {
 window.onscroll = function () {
   checkScrollSpeed();
 };
+
+// GET ROTATION OF ELEMENT
+// function getCurrentRotation(el){
+//   var st = window.getComputedStyle(el, null);
+//   var tm = st.getPropertyValue("-webkit-transform") ||
+//            st.getPropertyValue("-moz-transform") ||
+//            st.getPropertyValue("-ms-transform") ||
+//            st.getPropertyValue("-o-transform") ||
+//            st.getPropertyValue("transform") ||
+//            "none";
+//   if (tm != "none") {
+//     var values = tm.split('(')[1].split(')')[0].split(',');
+//     angle = (Math.atan2(values[1],values[0]));
+//     return (Math.cos(angle));
+//   }
+//   return 0;
+// }

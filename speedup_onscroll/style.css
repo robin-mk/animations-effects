@@ -20,34 +20,26 @@ body {
   display: inline-block;
 }
 
-.textContainer {
-  background-color: azure;
-  padding: 50px;
-  width: 100%;
-  position: fixed;
-  top: 30%;
-  /* display: flex; */
-}
-
 #banner-text {
   width: 100%;
   margin-bottom: 4rem;
   position: fixed;
+  top: 0;
+  left: 0;
 }
 #banner-text2 {
-  width: 200%;
+  width: 100%;
   margin-bottom: 4rem;
-  position: fixed;
-  top: 200px;
-  /* transform: rotate(45deg); */
+  position: absolute;
+  top: 400px;
+  left: 0;
 }
 #banner-text3 {
-  width: 200%;
+  width: 100%;
   margin-bottom: 4rem;
-  position: fixed;
-  top: 400px;
-  width: 200%;
-  /* transform: rotate(-45deg); */
+  position: absolute;
+  top: 700px;
+  left: 0;
 }
 .banner-text {
   width: 100%;
@@ -81,7 +73,7 @@ body {
   padding: 50px 0;
   background-color: beige;
 }
-.infinity div, img {
+.infinity div, img, p {
   /* transition: transform 0.2s ease-out; */
 }
 
