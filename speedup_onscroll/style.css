@@ -47,6 +47,7 @@ body {
   left: 0;
   white-space: nowrap;
   font-weight: bold;
+  backface-visibility: hidden;
 }
 
 .banner-text div{
@@ -59,6 +60,7 @@ body {
   display: inline-block;
   white-space: nowrap;
   padding-right: 5px;
+  backface-visibility: hidden;
 }
 .infinity img {
   height: 150px;
@@ -72,8 +74,10 @@ body {
   width: 100%;
   padding: 50px 0;
   background-color: beige;
+  backface-visibility: hidden;
 }
 .infinity div, img, p {
+  backface-visibility: hidden;
   /* transition: transform 0.2s ease-out; */
 }
 

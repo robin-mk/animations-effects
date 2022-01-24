@@ -1,3 +1,5 @@
+//  VOIR DIGITAL GATE POUR LE SCROLL EVENT
+
 let rotator = document.getElementById("rotator");
 let intervalTimer = 5; // precision de l'interval et donc de la transform / ne pas changer sinon ça ne marche plus
 let sentenceWidth = [];
@@ -61,11 +63,18 @@ function createDOMElements(a, indiceInfinityItems) {
   sentenceInfinity[indiceInfinityItems] = document.querySelectorAll(`.sentenceInfinity${indiceInfinityItems}`);
 }
 
-// initiate();
-
-// function initiate(sentence, separator, indiceInfinityItems) {
+// LANCEMENT DE LA BOUCLE ANIMATION
 setInterval(timeCount, intervalTimer);
-// }
+
+
+
+// requestAnimationFrame(timeCount);
+
+
+// var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+
+
 
 // ANIMATION PART
 function timeCount() {
@@ -93,11 +102,13 @@ function timeCount() {
         sentencesTimeArray[j][i] += lengthArray[j] * sentenceWidth[j];
       }
 
+
       // TRANSFORM
-      sentenceInfinity[j][i].style.transform = "translateX(" + - sentencesTimeArray[j][i] + "px)";
-
-
-
+      sentenceInfinity[j][i].style.transform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
+      sentenceInfinity[j][i].style.webkitTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
+      sentenceInfinity[j][i].style.MozTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
+      sentenceInfinity[j][i].style.msTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
+      sentenceInfinity[j][i].style.OTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
 
       // partie pour gerer la transition
       // visibleOnScreen[j][i] = sentenceInfinity[j][i];
@@ -109,7 +120,8 @@ function timeCount() {
       // }
       // console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
 
-
+      // BOUCLEUR
+      // requestAnimationFrame(timeCount);
     }
   }
 }

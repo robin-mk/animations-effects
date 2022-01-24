@@ -13,3 +13,6 @@ background.addEventListener("mousemove", function myScript(event) {
     ball1.style.transform = "translate(" + x * 1.3 + "px," + y * 1.3 + "px)";
 });
 
+if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+    ball1.style.filter ="blur(70px)";
+}
