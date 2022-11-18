@@ -23,8 +23,8 @@ body {
 #banner-text {
   width: 100%;
   margin-bottom: 4rem;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 40%;
   left: 0;
 }
 #banner-text2 {

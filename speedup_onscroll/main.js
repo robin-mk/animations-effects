@@ -18,7 +18,7 @@ const sentencesContainer = document.querySelectorAll('.infinity');
 let parentElementInifinity = [];
 let rotationParentElementInifinity = [];
 let indiceInfinityItems = 0;
-let reverse = -1;
+let reverse = 1;
 
 // BROWSER
 var isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
@@ -70,16 +70,6 @@ function createDOMElements(a, indiceInfinityItems) {
 // LANCEMENT DE LA BOUCLE ANIMATION
 setInterval(timeCount, intervalTimer);
 
-
-
-// requestAnimationFrame(timeCount);
-
-
-// var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
-
-
-
 // ANIMATION PART
 function timeCount() {
   // pour les phrases
@@ -93,15 +83,17 @@ function timeCount() {
 
         // text plus à l'écran à gauche : invisible
         sentenceInfinity[j][i].style.opacity = 0;
-        sentenceInfinity[j][i].style.transition = "none";
+        // sentenceInfinity[j][i].style.transition = "none";
       }
 
       // le plus 3 parce que il est invisible à gauche à plus 2
       if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
         sentenceInfinity[j][i].style.opacity = 1;
-        // sentenceInfinity[j][i].style.transition = "transform 0.2s ease-out";
+        // sentenceInfinity[j][i].style.transition = "transform 0.3s linear";
       }
+
+      // console.log(sentenceInfinity[0][i])
 
       // si delta negatif
       if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 2 - lengthArray[j]))) {
@@ -115,19 +107,6 @@ function timeCount() {
       sentenceInfinity[j][i].style.MozTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
       sentenceInfinity[j][i].style.msTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
       sentenceInfinity[j][i].style.OTransform = "translate3d(" + - sentencesTimeArray[j][i] + "px,0,0) rotate(0.1deg)";
-
-      // partie pour gerer la transition
-      // visibleOnScreen[j][i] = sentenceInfinity[j][i];
-      // if (sentenceInfinity[j][i].getBoundingClientRect().left > window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right < 0) {
-      //   visibleOnScreen[j][i] = false;
-      //   sentenceInfinity[j][i].style.opacity = 0;
-      // } if (sentenceInfinity[j][i].getBoundingClientRect().left < window.innerWidth || sentenceInfinity[j][i].getBoundingClientRect().right > 0) {
-      //   sentenceInfinity[j][i].style.opacity = 1;
-      // }
-      // console.log(sentenceInfinity[j][i].getBoundingClientRect().left);
-
-      // BOUCLEUR
-      // requestAnimationFrame(timeCount);
     }
   }
 }
