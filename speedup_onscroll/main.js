@@ -18,6 +18,10 @@ const sentencesContainer = document.querySelectorAll('.infinity');
 let parentElementInifinity = [];
 let rotationParentElementInifinity = [];
 let indiceInfinityItems = 0;
+let reverse = -1;
+
+// BROWSER
+var isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
 
 // INIT POUR LE BON CALCUL DES WIDTH
 window.onload = function initInfinity() {
@@ -26,7 +30,7 @@ window.onload = function initInfinity() {
     // parentElementInifinity[indiceInfinityItems] = item.parentElement;
     // rotationParentElementInifinity[indiceInfinityItems] = getCurrentRotation(parentElementInifinity[indiceInfinityItems]);
 
-    speed[indiceInfinityItems] = +item.dataset.speed;
+    speed[indiceInfinityItems] = isFirefox ? +item.dataset.speed * 2.5 : +item.dataset.speed;
     inputInfinity = item.children[0];
     tagNameInfinity = inputInfinity.tagName;
     sentenceText = inputInfinity.textContent;
@@ -82,19 +86,21 @@ function timeCount() {
   for (let j = 0; j < indiceInfinityItems; j++) {
     for (let i = 0; i < lengthArray[j]; i++) {
 
-      sentencesTimeArray[j][i] += speed[j] + Math.sign(speed[j]) * delta;
+      sentencesTimeArray[j][i] +=  reverse * speed[j] + Math.sign(speed[j]) * delta;
       // replacement au debut si disparait a gauche
       if (sentencesTimeArray[j][i] > (sentenceWidth[j] * (i + 2))) {
         sentencesTimeArray[j][i] -= lengthArray[j] * sentenceWidth[j];
 
         // text plus à l'écran à gauche : invisible
         sentenceInfinity[j][i].style.opacity = 0;
+        sentenceInfinity[j][i].style.transition = "none";
       }
 
       // le plus 3 parce que il est invisible à gauche à plus 2
       if (sentencesTimeArray[j][i] < (sentenceWidth[j] * (i + 3 - lengthArray[j]))) {
         // text à l'écran à droite : visible
         sentenceInfinity[j][i].style.opacity = 1;
+        // sentenceInfinity[j][i].style.transition = "transform 0.2s ease-out";
       }
 
       // si delta negatif
@@ -160,7 +166,10 @@ var checkScrollSpeed = (function (settings) {
 
 // listen to "scroll" event
 window.onscroll = function () {
-  checkScrollSpeed();
+  let delta = checkScrollSpeed();
+  if (delta < 0 ) reverse = -1;
+  if (delta > 0 ) reverse = 1;
+  console.log(reverse)
 };
 
 // GET ROTATION OF ELEMENT

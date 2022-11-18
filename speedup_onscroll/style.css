@@ -43,7 +43,6 @@ body {
 }
 .banner-text {
   width: 100%;
-  font-size: 30px;
   left: 0;
   white-space: nowrap;
   font-weight: bold;
@@ -59,7 +58,7 @@ body {
 .sentenceInfinity {
   display: inline-block;
   white-space: nowrap;
-  padding-right: 5px;
+  padding-right: 20px;
   backface-visibility: hidden;
 }
 .infinity img {
@@ -75,6 +74,15 @@ body {
   padding: 50px 0;
   background-color: beige;
   backface-visibility: hidden;
+  font-size: 80px;
+}
+@media screen and (max-width:991px) {
+  .infinity {
+    font-size: 30px;
+  }
+  .sentenceInfinity {
+    padding-right: 5px;
+  }
 }
 .infinity div, img, p {
   backface-visibility: hidden;
